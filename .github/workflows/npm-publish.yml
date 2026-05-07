@@ -7,7 +7,7 @@
 #  Copyright (c) 2026 Hestia Labs
 # ═══════════════════════════════════════════════════════════════════
 
-name: CI & Publish
+name: npm-publish
 
 on:
   push:
@@ -19,7 +19,7 @@ on:
 jobs:
   # ── CI: Quality Gates ───────────────────────────────────────────
   ci:
-    name: CI (Lint, Typecheck, Test)
+    name: CI 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
