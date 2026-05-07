@@ -1,7 +1,6 @@
 # ═══════════════════════════════════════════════════════════════════
-#  HXTP JS CLI — CI & Auto-Publish Pipeline
+#  HXTP JS SDK — CI & Auto-Publish Pipeline
 #
-#  • Runs CI (Lint, Test, Typecheck) on all PRs and pushes to main.
 #  • Auto-publishes to NPM and GitHub Releases on version tags (v*).
 #  • Uses Bun for high-performance builds and installation.
 #
@@ -38,7 +37,7 @@ jobs:
         run: bun run lint
 
       - name: Typecheck
-        run: bun run type-check
+        run: bun run typecheck
 
       - name: Test
         run: bun run test
@@ -64,7 +63,8 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-
+      - name: Build SDK
+        run: bun run build
 
       - name: Check if version already published
         id: check
@@ -97,11 +97,9 @@ jobs:
           generate_release_notes: true
           body: |
             ## hxtp-cli ${{ github.ref_name }}
-            Official HxTP/3.0 CLI for JavaScript and TypeScript.
+            Oficial HxTP/3.0 Cli for JavaScript and TypeScript.
             ### Install
             ```bash
-            npm install -g hxtp-cli
-            # or
-            bun install -g hxtp-cli
+            bun add @hestialabs/hxtp-js
             ```
           make_latest: true
