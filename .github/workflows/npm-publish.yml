@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════
-#  HXTP JS SDK — CI & Auto-Publish Pipeline
+#  HXTP JS CLI — CI & Auto-Publish Pipeline
 #
 #  • Auto-publishes to NPM and GitHub Releases on version tags (v*).
 #  • Uses Bun for high-performance builds and installation.
@@ -37,7 +37,7 @@ jobs:
         run: bun run lint
 
       - name: Typecheck
-        run: bun run typecheck
+        run: bun run type-check
 
       - name: Test
         run: bun run test
@@ -63,8 +63,13 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Build SDK
-        run: bun run build
+      - name: Build Standalone Binaries
+        run: |
+          mkdir -p dist
+          bun build ./src/index.ts --compile --target=bun-linux-x64 --outfile dist/hxtp-cli-linux-amd64
+          bun build ./src/index.ts --compile --target=bun-darwin-x64 --outfile dist/hxtp-cli-darwin-amd64
+          bun build ./src/index.ts --compile --target=bun-darwin-arm64 --outfile dist/hxtp-cli-darwin-arm64
+          bun build ./src/index.ts --compile --target=bun-windows-x64 --outfile dist/hxtp-cli-windows-amd64.exe
 
       - name: Check if version already published
         id: check
@@ -84,7 +89,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish to NPM (Trusted Publishing)
+      - name: Publish to NPM
         if: steps.check.outputs.already_published == 'false'
         run: npm publish --provenance --access public
         env:
@@ -97,9 +102,13 @@ jobs:
           generate_release_notes: true
           body: |
             ## hxtp-cli ${{ github.ref_name }}
-            Oficial HxTP/3.0 Cli for JavaScript and TypeScript.
+            Official HxTP/3.0 CLI for JavaScript and TypeScript.
             ### Install
             ```bash
-            bun add @hestialabs/hxtp-js
+            npm install -g hxtp-cli
+            # or
+            bun install -g hxtp-cli
             ```
           make_latest: true
+          files: |
+            dist/*
