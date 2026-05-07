@@ -1,0 +1,45 @@
+{
+  "name": "hxtp-cli",
+  "version": "1.0.2",
+  "description": "The official HxTP CLI — Secure hardware control and messaging for Hestia Cloud.",
+  "type": "module",
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "bin": {
+    "hxtp-cli": "src/index.ts"
+  },
+  "scripts": {
+    "start": "bun src/index.ts",
+    "test": "vitest run",
+    "lint": "eslint src/**/*.ts",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "postinstall": "node scripts/setup-path.js"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.9.1",
+    "@hestialabs/hxtp-js": "1.0.8",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "keytar": "^7.9.0",
+    "open": "^10.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.13.1",
+    "@typescript-eslint/eslint-plugin": "^8.59.2",
+    "@typescript-eslint/parser": "^8.59.2",
+    "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.3",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.59.2"
+  },
+  "main": "./src/index.ts",
+  "keywords": [],
+  "author": "hestialabs",
+  "license": "MIT"
+}
